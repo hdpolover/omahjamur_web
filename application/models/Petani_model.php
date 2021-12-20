@@ -38,4 +38,17 @@ class Petani_model extends CI_Model
         $query = "select * from petani where id_pengguna = " . $id;
         return $this->db->query($query)->result();
     }
+
+    public function get_detail_id($id)
+    {
+        $query = "select * from petani where id_petani = " . $id;
+        return $this->db->query($query)->result();
+    }
+
+    public function validasi_pengajuan($data, $id)
+    {
+        $this->db->where('id_petani', $id);
+        $this->db->update('petani', $data);
+        return $this->db->affected_rows();
+    }
 }

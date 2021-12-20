@@ -3,30 +3,30 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 use chriskacerguis\RestServer\RestController;
 
-class Petani extends RestController
+class Customer extends RestController
 {
 
     public function __construct()
     {
         parent::__construct();
         $this->load->library(array('upload', 'image_lib'));
-        $this->load->model('petani_model', 'petani');
+        $this->load->model('customer_model', 'customer');
     }
 
     public function index_get()
     {
-        $id = $this->get('id_petani');
+        $id = $this->get('id_customer');
 
         if ($id === NULL) {
-            $petani = $this->petani->get_petani();
+            $customer = $this->customer->get_customer();
         } else {
-            $petani = $this->petani->get_petani($id);
+            $customer = $this->customer->get_customer($id);
         }
 
-        if ($petani) {
-            $this->response(['status' => true, 'message' => 'Petani ditemukan', 'data' => $petani],  200);
+        if ($customer) {
+            $this->response(['status' => true, 'message' => 'customer ditemukan', 'data' => $customer],  200);
         } else {
-            $this->response(['status' => false, 'message' => 'Petani tidak ditemukan'],  200);
+            $this->response(['status' => false, 'message' => 'customer tidak ditemukan'],  200);
         }
     }
 
@@ -34,25 +34,25 @@ class Petani extends RestController
     {
         $id = $this->get('id_pengguna');
 
-        $petani = $this->petani->get_detail($id);
+        $customer = $this->customer->get_detail($id);
 
-        if ($petani) {
-            $this->response(['status' => true, 'message' => 'Petani ditemukan', 'data' => $petani],  200);
+        if ($customer) {
+            $this->response(['status' => true, 'message' => 'customer ditemukan', 'data' => $customer],  200);
         } else {
-            $this->response(['status' => false, 'message' => 'Petani tidak ditemukan'],  200);
+            $this->response(['status' => false, 'message' => 'customer tidak ditemukan'],  200);
         }
     }
 
     public function get_detail_id_get()
     {
-        $id = $this->get('id_petani');
+        $id = $this->get('id_customer');
 
-        $petani = $this->petani->get_detail_id($id);
+        $customer = $this->customer->get_detail_id($id);
 
-        if ($petani) {
-            $this->response(['status' => true, 'message' => 'Petani ditemukan', 'data' => $petani],  200);
+        if ($customer) {
+            $this->response(['status' => true, 'message' => 'customer ditemukan', 'data' => $customer],  200);
         } else {
-            $this->response(['status' => false, 'message' => 'Petani tidak ditemukan'],  200);
+            $this->response(['status' => false, 'message' => 'customer tidak ditemukan'],  200);
         }
     }
 
@@ -60,46 +60,46 @@ class Petani extends RestController
     {
         $param = $this->post();
 
-        $id_petani = $param['id_petani'];
+        $id_customer = $param['id_customer'];
         
         $data = [
             'status' => '1'
         ];
 
-        $res = $this->petani->validasi_pengajuan($data, $id_petani);
+        $res = $this->customer->validasi_pengajuan($data, $id_customer);
 
         if ($res > 0) {
             $this->response([
-                'status' => true, 'message' => 'petani berhasil divalidasi'],  200);
+                'status' => true, 'message' => 'customer berhasil divalidasi'],  200);
         } else {
             $this->response([
-                'status' => false, 'message' => 'petani berhasil gagal divalidasi'],  200);
+                'status' => false, 'message' => 'customer berhasil gagal divalidasi'],  200);
         }
     }
 
-    public function pengajuan_petani_get()
+    public function pengajuan_customer_get()
     {
-        $petani = $this->petani->get_pengajuan_petani();
+        $customer = $this->customer->get_pengajuan_customer();
         
-        if ($petani) {
-            $this->response(['status' => true, 'message' => 'Petani ditemukan', 'data' => $petani],  200);
+        if ($customer) {
+            $this->response(['status' => true, 'message' => 'customer ditemukan', 'data' => $customer],  200);
         } else {
-            $this->response(['status' => false, 'message' => 'Petani tidak ditemukan'],  200);
+            $this->response(['status' => false, 'message' => 'customer tidak ditemukan'],  200);
         }
     }
 
-    public function lengkap_petani_get()
+    public function lengkap_customer_get()
     {
-        $petani = $this->petani->get_lengkap_petani();
+        $customer = $this->customer->get_lengkap_customer();
         
-        if ($petani) {
-            $this->response(['status' => true, 'message' => 'Petani ditemukan', 'data' => $petani],  200);
+        if ($customer) {
+            $this->response(['status' => true, 'message' => 'customer ditemukan', 'data' => $customer],  200);
         } else {
-            $this->response(['status' => false, 'message' => 'Petani tidak ditemukan'],  200);
+            $this->response(['status' => false, 'message' => 'customer tidak ditemukan'],  200);
         }
     }
 
-    public function daftar_petani_post()
+    public function daftar_customer_post()
     {
         $param = $this->post();
 
@@ -124,12 +124,10 @@ class Petani extends RestController
                     'nama' => $param['nama'],
                     'alamat' => $param['alamat'],
                     'foto' => $upload_image,
-                    'latitude' => $param['latitude'],
-                    'longitude' => $param['longitude'],
-                    'status' => 0
+                    'status' => 1
                 );
 
-                $insert = $this->petani->insert_petani($data);
+                $insert = $this->customer->insert_customer($data);
 
                 if ($insert == 1) {
                     $this->response(['status' => true, 'message' => 'Berhasil mendaftar silahkan lakukan login.'], 200);

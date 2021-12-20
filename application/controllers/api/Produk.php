@@ -14,9 +14,7 @@ class Produk extends RestController
 
     public function index_get()
     {
-        $param = $this->get();
-
-        $id = $param['id_produk'];
+        $id = $this->get('id_produk');
 
         if ($id === NULL) {
             $produk = $this->produk->get_produk();
@@ -38,6 +36,21 @@ class Produk extends RestController
         $id = $param['id_petani'];
 
         $produk = $this->produk->get_produk_p($id);
+
+        if ($produk) {
+            $this->response(['status' => true, 'message' => 'Produk ditemukan', 'data' => $produk],  200);
+        } else {
+            $this->response(['status' => false, 'message' => 'Produk tidak ditemukan'],  200);
+        }
+    }
+
+    public function get_detail_produk_get()
+    {
+        $param = $this->get();
+
+        $id = $param['id_produk'];
+
+        $produk = $this->produk->get_produk_id($id);
 
         if ($produk) {
             $this->response(['status' => true, 'message' => 'Produk ditemukan', 'data' => $produk],  200);
@@ -88,34 +101,6 @@ class Produk extends RestController
             }
         } else {
             $this->response(['status' => false, 'message' => 'failed to register'],  200);
-        }
-    }
-
-    public function index_post()
-    {
-        $param = $this->post();
-
-        $now = new DateTime();
-        $id = $param['id'];
-        $role = $param['id_role'];
-
-        $data = [
-            'id' => $id,
-            'id_role' => $role,
-            'status' => 1,
-            'tanggal_dibuat' => $now->format('Y-m-d H:i:s'),
-        ];
-
-        $res = $this->produk->simpan_pengguna($data);
-
-        if ($res > 0) {
-            $this->response([
-                'status' => true, 'message' => 'produk terdaftar'
-            ],  200);
-        } else {
-            $this->response([
-                'status' => false, 'message' => 'gagal mendaftarkan produk'
-            ],  200);
         }
     }
 }
