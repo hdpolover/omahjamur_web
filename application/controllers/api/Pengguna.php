@@ -64,7 +64,7 @@ class Pengguna extends RestController
             'id_role' => $role,
             'email' => $email,
             'password' => $password,
-            'tanggal_dibuat' => $now->format('Y-m-d H:i:s'),
+            'tanggal_daftar' => $now->format('Y-m-d H:i:s'),
             'status' => 1,
         ];
  

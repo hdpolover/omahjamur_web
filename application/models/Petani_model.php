@@ -8,24 +8,24 @@ class Petani_model extends CI_Model
     public function get_petani($id = null)
     {
         if ($id == null) {
-            $query = "select * from petani";
+            $query = "select * from pengguna where peran = 'petani'";
             return $this->db->query($query)->result();
         } else {
-            $query = "select * from petani where id_petani = " . $id;
+            $query = "select * from pengguna where peran = 'petani' and id_pengguna = " . $id;
             return $this->db->query($query)->result();
         }
     }
 
     public function get_pengajuan_petani()
     {
-        $query = "select * from petani where status = '0'";
+        $query = "select * from pengguna where peran = 'petani' and status = '0'";
         return $this->db->query($query)->result();
     }
 
     public function get_lengkap_petani()
     {
-        $this->db->where('status', "1");
-        return $this->db->get('petani')->result();
+        $query = "select * from pengguna where peran = 'petani' and status = '1'";
+        return $this->db->query($query)->result();
     }
 
     public function insert_petani($param)

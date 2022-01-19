@@ -60,7 +60,7 @@ class Petani extends RestController
     {
         $param = $this->post();
 
-        $id_petani = $param['id_petani'];
+        $id_petani = $param['id_pengguna'];
         
         $data = [
             'status' => '1'
